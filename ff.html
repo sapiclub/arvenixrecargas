@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Recarga Free Fire - Arvenix Recargas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("bRjARjm4eOmhppWL4");
+    })();
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0d0d0d;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    .bg-anim {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: #0d0d0d;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .bg-anim::before {
+      content: "";
+      position: absolute;
+      width: 180%;
+      height: 180%;
+      top: -40%;
+      left: -40%;
+      background: radial-gradient(circle, rgba(255,0,0,0.35) 0%, transparent 70%);
+      animation: glow 10s infinite ease-in-out;
+      opacity: 0.6;
+    }
+
+    .bg-anim::after {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: radial-gradient(circle, rgba(255,80,80,0.25) 0%, transparent 75%);
+      animation: glow2 14s infinite ease-in-out;
+      opacity: 0.4;
+    }
+
+    @keyframes glow {
+      0% { transform: scale(1); opacity: 0.55; }
+      50% { transform: scale(1.15); opacity: 0.75; }
+      100% { transform: scale(1); opacity: 0.55; }
+    }
+
+    @keyframes glow2 {
+      0% { transform: scale(1.1); opacity: 0.35; }
+      50% { transform: scale(1.25); opacity: 0.55; }
+      100% { transform: scale(1.1); opacity: 0.35; }
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px 15px 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      color: #ff0000;
+      text-shadow: 0 0 15px #ff0000;
+    }
+
+    header p {
+      margin-top: 5px;
+      color: #ccc;
+      font-size: 0.95rem;
+    }
+
+    /* Barra de pasos */
+    .steps-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 25px 0 30px;
+    }
+
+    .step-item {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #555;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      background: #111;
+      color: #aaa;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: 0.3s;
+    }
+
+    .step-label {
+      margin-top: 6px;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+
+    .step-item::after {
+      content: "";
+      position: absolute;
+      top: 16px;
+      right: -50%;
+      width: 100%;
+      height: 2px;
+      background: #333;
+      z-index: -1;
+    }
+
+    .step-item:last-child::after {
+      display: none;
+    }
+
+    .step-item.active .step-circle {
+      border-color: #ff0000;
+      background: #ff0000;
+      color: #fff;
+      box-shadow: 0 0 12px #ff0000;
+    }
+
+    .step-item.active .step-label {
+      color: #fff;
+    }
+
+    .step-item.completed .step-circle {
+      border-color: #0f0;
+      background: #0f0;
+      color: #000;
+      box-shadow: 0 0 12px #0f0;
+    }
+
+    .step-item.completed .step-label {
+      color: #fff;
+    }
+
+    .step-item.completed::after {
+      background: #ff0000;
+    }
+
+    .step {
+      display: none;
+      background: rgba(10,10,10,0.9);
+      border-radius: 12px;
+      padding: 20px 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      border: 1px solid #333;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .step h2 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: #ff0000;
+    }
+
+    .step p {
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-bottom: 15px;
+    }
+
+    .game-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .game-header img {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 2px solid #ff0000;
+    }
+
+    .game-header .game-info h3 {
+      font-size: 1.1rem;
+    }
+
+    .game-header .game-info span {
+      font-size: 0.85rem;
+      color: #ccc;
+    }
+
+    .amount-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+    }
+
+    .amount-card {
+      background: #151515;
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid #333;
+      cursor: pointer;
+      transition: 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .amount-card img {
+      width: 100%;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .amount-card h4 {
+      font-size: 0.95rem;
+      margin-bottom: 3px;
+    }
+
+    .amount-card span {
+      font-size: 0.85rem;
+      color: #ccc;
+    }
+
+    .amount-card.selected {
+      border-color: #ff0000;
+      box-shadow: 0 0 15px #ff0000;
+      transform: translateY(-3px);
+    }
+
+    .amount-tag {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(0,0,0,0.7);
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      border: 1px solid #ff0000;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #111;
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #ff0000;
+      box-shadow: 0 0 8px #ff0000;
+    }
+
+    .form-group small {
+      font-size: 0.75rem;
+      color: #888;
+    }
+
+    .summary-box {
+      background: #151515;
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid #333;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+
+    .summary-box p {
+      margin-bottom: 4px;
+    }
+
+    .summary-box p span {
+      color: #ff5555;
+    }
+
+    .payment-info {
+      background: #151515;
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid #333;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+
+    .payment-info p {
+      margin-bottom: 4px;
+    }
+
+    .payment-info strong {
+      color: #ff0000;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 10px 15px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: 0.25s;
+    }
+
+    .btn-prev {
+      background: #222;
+      color: #fff;
+      border: 1px solid #444;
+    }
+
+    .btn-next {
+      background: #ff0000;
+      color: #fff;
+      box-shadow: 0 0 12px #ff0000;
+    }
+
+    .btn-prev:hover {
+      background: #333;
+    }
+
+    .btn-next:hover {
+      background: #cc0000;
+      box-shadow: 0 0 16px #ff0000;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .error-msg {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: #ff7777;
+    }
+
+    .success-box {
+      text-align: center;
+      padding: 30px 15px;
+    }
+
+    .success-box h2 {
+      color: #0f0;
+      margin-bottom: 10px;
+    }
+
+    .success-box p {
+      color: #ccc;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      .carousel-section {
+        padding-top: 20px;
+      }
+
+      .step h2 {
+        font-size: 1.1rem;
+      }
+
+      .game-header img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim"></div>
+
+  <div class="container">
+    <header>
+      <h1>Recarga Free Fire</h1>
+      <p>Completa los 3 pasos para procesar tu recarga de diamantes.</p>
+    </header>
+
+    <div class="steps-bar">
+      <div class="step-item active" data-step="1">
+        <div class="step-circle">1</div>
+        <div class="step-label">Cantidad</div>
+      </div>
+      <div class="step-item" data-step="2">
+        <div class="step-circle">2</div>
+        <div class="step-label">Datos</div>
+      </div>
+      <div class="step-item" data-step="3">
+        <div class="step-circle">3</div>
+        <div class="step-label">Pago</div>
+      </div>
+    </div>
+
+    <div class="step active" id="step-1">
+      <h2>Paso 1: Selecciona la cantidad</h2>
+      <p>Elige la cantidad de diamantes que deseas recargar.</p>
+
+      <div class="game-header">
+        <img src="https://play-lh.googleusercontent.com/1wE91ae_1YIJtIjQ1YJz5RhAajxEpF1TfrXGg7tcrKl90MOnF7XdFj71pw_MSQbyhM5PYz-eRdeBFQBzSGrV=w240-h480-rw" alt="Free Fire Logo">
+        <div class="game-info">
+          <h3>Free Fire</h3>
+          <span>Selecciona tu paquete de diamantes</span>
+        </div>
+      </div>
+
+      <div class="amount-grid">
+        <div class="amount-card" data-amount="110" data-price="570,00">
+          <span class="amount-tag">110 diamantes</span>
+          <img src="https://img.icons8.com/?size=100&id=17333&format=png&color=000000" alt="Pack 1">
+          <h4>100+10</h4>
+          <span>570,00 Bs</span>
+        </div>
+
+        <div class="amount-card" data-amount="341" data-price="1613,55">
+          <span class="amount-tag">341 diamantes</span>
+          <img src="https://img.icons8.com/?size=100&id=17333&format=png&color=000000" alt="Pack 2">
+          <h4>310+31</h4>
+          <span>1613,55 Bs</span>
+        </div>
+
+        <div class="amount-card" data-amount="572" data-price="2498,40">
+          <span class="amount-tag">572 diamantes</span>
+          <img src="https://img.icons8.com/?size=100&id=17333&format=png&color=000000" alt="Pack 3">
+          <h4>520+52</h4>
+          <span>2498,40 Bs</span>
+        </div>
+
+        <div class="amount-card" data-amount="1166" data-price="4944,75">
+          <span class="amount-tag">1166 diamantes</span>
+          <img src="https://img.icons8.com/?size=100&id=17333&format=png&color=000000" alt="Pack 4">
+          <h4>1060+106</h4>
+          <span>4944,75 Bs</span>
+        </div>
+
+        <div class="amount-card" data-amount="Tarjeta Semanal" data-price="1093,10">
+          <span class="amount-tag">Tarjeta Semanal</span>
+          <img src="https://img.icons8.com/?size=100&id=MabKibi4OdYM&format=png&color=000000" alt="Pack 5">
+          <h4>Tarjeta Semanal</h4>
+          <span>1093,10 Bs</span>
+        </div>
+
+        <div class="amount-card" data-amount="Tarjeta Mensual" data-price="5205,00">
+          <span class="amount-tag">Tarjeta Mensual</span>
+          <img src="https://img.icons8.com/?size=100&id=MabKibi4OdYM&format=png&color=000000" alt="Pack 6">
+          <h4>Tarjeta Mensual</h4>
+          <span>5205,00 Bs</span>
+        </div>
+      </div>
+      
+      <div class="error-msg" id="error-step-1"></div>
+
+      <div class="buttons">
+        <button class="btn btn-prev" disabled>Anterior</button>
+        <button class="btn btn-next" id="next-1">Siguiente</button>
+      </div>
+    </div>
+
+    <div class="step" id="step-2">
+      <h2>Paso 2: Completa tus datos</h2>
+      <p>Estos datos se usarán para procesar tu recarga y enviarte el comprobante.</p>
+
+      <div class="summary-box" id="summary-step-2">
+        <p>Juego: <span>Free Fire</span></p>
+        <p>Cantidad seleccionada: <span id="summary-amount-2">-</span> diamantes</p>
+        <p>Monto a pagar: <span id="summary-price-2">-</span></p>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Correo para el comprobante</label>
+        <input type="email" id="email" placeholder="tucorreo@ejemplo.com" required>
+        <small>Te enviaremos el comprobante de la recarga a este correo.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="player-id">ID del jugador</label>
+        <input type="text" id="player-id" placeholder="ID del jugador en Free Fire" required>
+        <small>Asegúrate de que el ID sea correcto para evitar errores en la recarga.</small>
+      </div>
+
+      <div class="error-msg" id="error-step-2"></div>
+
+      <div class="buttons">
+        <button class="btn btn-prev" id="prev-2">Anterior</button>
+        <button class="btn btn-next" id="next-2">Siguiente</button>
+      </div>
+    </div>
+
+    <div class="step" id="step-3">
+      <h2>Paso 3: Datos del pago</h2>
+      <p>Realiza el pago móvil y completa los datos del titular del pago.</p>
+
+      <div class="payment-info">
+        <p><strong>Pago Móvil:</strong></p>
+        <p>Banco: <strong>0102 BDV</strong></p>
+        <p>Teléfono: <strong>0412-3770260</strong></p>
+        <p>Cédula: <strong>33129271</strong></p>
+      </div>
+
+      <div class="summary-box" id="summary-step-3">
+        <p>Juego: <span>Free Fire</span></p>
+        <p>Cantidad seleccionada: <span id="summary-amount-3">-</span> diamantes</p>
+        <p>Monto a pagar: <span id="summary-price-3">-</span></p>
+      </div>
+
+      <div class="form-group">
+        <label for="payment-ref">Referencia completa del pago</label>
+        <input type="text" id="payment-ref" placeholder="Número de referencia" required>
+      </div>
+
+      <div class="form-group">
+        <label for="payment-phone">Teléfono del titular del pago</label>
+        <input type="tel" id="payment-phone" placeholder="Teléfono del titular" required>
+      </div>
+
+      <div class="form-group">
+        <label for="payment-id">Cédula del titular del pago</label>
+        <input type="text" id="payment-id" placeholder="Cédula del titular" required>
+      </div>
+
+      <div class="error-msg" id="error-step-3"></div>
+
+      <div class="buttons">
+        <button class="btn btn-prev" id="prev-3">Anterior</button>
+        <button class="btn btn-next" id="finish">Continuar</button>
+      </div>
+    </div>
+
+    <div class="step" id="step-4">
+      <div class="success-box">
+        <h2>¡Tu recarga está en proceso!</h2>
+        <p>Tu solicitud ha sido enviada correctamente.</p>
+        <p>El tiempo de procesamiento puede ser de <strong>10 minutos hasta 3 horas</strong>.</p>
+        <p>Revisa tu correo para el comprobante y mantente atento a tu cuenta de Free Fire.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    let currentStep = 1;
+    let selectedAmount = null;
+    let selectedPrice = null;
+
+    const steps = document.querySelectorAll('.step');
+    const stepItems = document.querySelectorAll('.step-item');
+
+    const amountCards = document.querySelectorAll('.amount-card');
+    const errorStep1 = document.getElementById('error-step-1');
+    const errorStep2 = document.getElementById('error-step-2');
+    const errorStep3 = document.getElementById('error-step-3');
+
+    const emailInput = document.getElementById('email');
+    const playerIdInput = document.getElementById('player-id');
+    const paymentRefInput = document.getElementById('payment-ref');
+    const paymentPhoneInput = document.getElementById('payment-phone');
+    const paymentIdInput = document.getElementById('payment-id');
+
+    const summaryAmount2 = document.getElementById('summary-amount-2');
+    const summaryPrice2 = document.getElementById('summary-price-2');
+    const summaryAmount3 = document.getElementById('summary-amount-3');
+    const summaryPrice3 = document.getElementById('summary-price-3');
+
+    const next1 = document.getElementById('next-1');
+    const next2 = document.getElementById('next-2');
+    const prev2 = document.getElementById('prev-2');
+    const prev3 = document.getElementById('prev-3');
+    const finishBtn = document.getElementById('finish');
+
+    function showStep(step) {
+      steps.forEach(s => s.classList.remove('active'));
+      const current = document.getElementById(`step-${step}`);
+      if (current) current.classList.add('active');
+
+      stepItems.forEach(item => {
+        const stepNum = parseInt(item.getAttribute('data-step'));
+        item.classList.remove('active', 'completed');
+        if (stepNum < step) {
+          item.classList.add('completed');
+        } else if (stepNum === step) {
+          item.classList.add('active');
+        }
+      });
+
+      currentStep = step;
+    }
+
+    amountCards.forEach(card => {
+      card.addEventListener('click', () => {
+        amountCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        selectedAmount = card.getAttribute('data-amount');
+        selectedPrice = card.getAttribute('data-price');
+        errorStep1.textContent = "";
+      });
+    });
+
+    next1.addEventListener('click', () => {
+      if (!selectedAmount || !selectedPrice) {
+        errorStep1.textContent = "Debes seleccionar una cantidad de diamantes antes de continuar.";
+        return;
+      }
+
+      summaryAmount2.textContent = selectedAmount;
+      summaryPrice2.textContent = `${selectedPrice} Bs`;
+      showStep(2);
+    });
+
+    prev2.addEventListener('click', () => {
+      showStep(1);
+    });
+
+    next2.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      const playerId = playerIdInput.value.trim();
+
+      if (!email || !playerId) {
+        errorStep2.textContent = "Debes completar todos los campos antes de continuar.";
+        return;
+      }
+
+      errorStep2.textContent = "";
+      summaryAmount3.textContent = selectedAmount;
+      summaryPrice3.textContent = `${selectedPrice} Bs`;
+      showStep(3);
+    });
+
+    prev3.addEventListener('click', () => {
+      showStep(2);
+    });
+
+    finishBtn.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      const playerId = playerIdInput.value.trim();
+      const paymentRef = paymentRefInput.value.trim();
+      const paymentPhone = paymentPhoneInput.value.trim();
+      const paymentId = paymentIdInput.value.trim();
+
+      if (!email || !playerId || !paymentRef || !paymentPhone || !paymentId) {
+        errorStep3.textContent = "Debes completar todos los campos antes de continuar.";
+        return;
+      }
+
+      errorStep3.textContent = "";
+
+      const serviceID = "service_i4wduvp";
+      const templateID = "template_gztpah9";
+
+      const templateParams = {
+        game_name: "Free Fire",
+        amount: selectedAmount,
+        price: selectedPrice,
+        email: email,
+        player_id: playerId,
+        payment_ref: paymentRef,
+        payment_phone: paymentPhone,
+        payment_id: paymentId
+      };
+
+      finishBtn.disabled = true;
+      finishBtn.textContent = "Enviando...";
+
+      emailjs.send(serviceID, templateID, templateParams)
+        .then(() => {
+          showStep(4);
+        })
+        .catch((err) => {
+          console.error("Error al enviar:", err);
+          errorStep3.textContent = "Ocurrió un error al enviar los datos. Intenta nuevamente.";
+        })
+        .finally(() => {
+          finishBtn.disabled = false;
+          finishBtn.textContent = "Continuar";
+        });
+    });
+  </script>
+</body>
+</html>

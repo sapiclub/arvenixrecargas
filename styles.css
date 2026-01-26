@@ -1,0 +1,279 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  position: relative;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #0d0d0d;
+  color: #fff;
+}
+
+.bg-anim {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #0d0d0d;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.bg-anim::before {
+  content: "";
+  position: absolute;
+  width: 180%;
+  height: 180%;
+  top: -40%;
+  left: -40%;
+  background: radial-gradient(circle, rgba(255,0,0,0.35) 0%, transparent 70%);
+  animation: glow 10s infinite ease-in-out;
+  opacity: 0.6;
+}
+
+.bg-anim::after {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: radial-gradient(circle, rgba(255,80,80,0.25) 0%, transparent 75%);
+  animation: glow2 14s infinite ease-in-out;
+  opacity: 0.4;
+}
+
+@keyframes glow {
+  0% { transform: scale(1); opacity: 0.55; }
+  50% { transform: scale(1.15); opacity: 0.75; }
+  100% { transform: scale(1); opacity: 0.55; }
+}
+
+@keyframes glow2 {
+  0% { transform: scale(1.1); opacity: 0.35; }
+  50% { transform: scale(1.25); opacity: 0.55; }
+  100% { transform: scale(1.1); opacity: 0.35; }
+}
+
+.carousel-section {
+  padding: 40px 10px;
+}
+
+.carousel-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  height: 500px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.carousel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(70%, 100vw);
+  max-width: 100%;
+  height: 80%;
+  object-fit: cover;
+  border-radius: 20px;
+  transform: translate(-50%, -50%) scale(0.7);
+  opacity: 0;
+  filter: brightness(0.3);
+  transition: all 0.6s ease;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  filter: brightness(1);
+  z-index: 3;
+  box-shadow: 0 0 25px #ff0000;
+}
+
+.slide.prev {
+  opacity: 0.7;
+  transform: translate(calc(-50% - 30%), -50%) scale(0.8);
+  z-index: 2;
+}
+
+.slide.next {
+  opacity: 0.7;
+  transform: translate(calc(-50% + 30%), -50%) scale(0.8);
+  z-index: 2;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #000;
+  border: 2px solid #ff0000;
+  color: #fff;
+  font-size: 2rem;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s;
+}
+
+.arrow:hover {
+  background: #ff0000;
+  box-shadow: 0 0 15px #ff0000;
+}
+
+.arrow-left { left: 10px; }
+.arrow-right { right: 10px; }
+
+.servicios {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.servicios h2 {
+  font-size: 2.2rem;
+  color: #ff0000;
+  text-shadow: 0 0 15px #ff0000;
+}
+
+.servicios p {
+  margin-top: 10px;
+  color: #ccc;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: 0.3s ease;
+}
+
+.card:hover img {
+  filter: brightness(0.6);
+}
+
+.btn-overlay {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff0000;
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 0 12px #ff0000;
+  transition: 0.3s ease;
+  opacity: 0;
+}
+
+.card:hover .btn-overlay {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-3px);
+}
+
+@media (max-width: 700px) {
+  .btn-overlay {
+    opacity: 1;
+  }
+}
+
+.faq {
+  padding: 40px 20px;
+}
+
+.faq h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #ff0000;
+  text-shadow: 0 0 15px #ff0000;
+}
+
+.faq-item {
+  max-width: 800px;
+  margin: 10px auto;
+}
+
+.faq-question {
+  width: 100%;
+  background: #111;
+  border: none;
+  border-left: 4px solid #ff0000;
+  padding: 15px;
+  color: #fff;
+  text-align: left;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.faq-answer {
+  display: none;
+  background: #222;
+  padding: 15px;
+  border-left: 4px solid #990000;
+  border-radius: 0 0 5px 5px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #aaa;
+}
+
+@media (max-width: 700px) {
+  .carousel-container {
+    height: 260px;
+  }
+
+  .slide {
+    width: 90%;
+    height: 70%;
+  }
+
+  .arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.4rem;
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
